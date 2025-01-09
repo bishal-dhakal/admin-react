@@ -2,19 +2,24 @@ import React, { useState, useEffect } from 'react';
 
 function Permissions({ userPermissions }) {
   const [permissions, setPermissions] = useState([]);
-  const [data, setData ] = useState(userPermissions)
-
+  const [data, setData ] = useState([])
   
 const handleChange = (event) => {
-  const { name, checked } = event.target; 
+  const { value, checked } = event.target; 
   setData((prevState) => {
-    if (checked) {
-      return [...prevState, name];
-    } else {
-      return prevState.filter((item) => item !== name);
-    }
-  });
+      // If the permission ID is already in `data`, remove it (unchecked), else add it (checked)
+      if (prevState.includes(value)) {
+        return prevState.filter((item) => item !== value); // Remove if already present
+      } else {
+        return [...prevState, value]; // Add if not present
+      } 
+    }); 
 };
+
+
+ useEffect(() => {
+    setData(userPermissions);
+  }, [userPermissions]);
 
   useEffect(() => {
     fetch('http://127.0.0.1:8000/auth/api/permission/')
@@ -24,12 +29,12 @@ const handleChange = (event) => {
         })
 
       .catch((error) => console.error('Error fetching permissions:', error));
-      console.log(userPermissions)
   }, []);
 
   return (
     <div>
       <p>Available Permissions</p>
+      {data}
       <div>
         {permissions.length === 0 ? (
           <p>No Permissions Available</p>
@@ -41,7 +46,7 @@ const handleChange = (event) => {
                 type="checkbox"
                 value={permission.id}
                 onChange={handleChange}
-                // checked={}
+checked={data.includes(permission.id)}
                 />
               <label>{permission.name}</label>
             </p>
