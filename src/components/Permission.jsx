@@ -18,8 +18,13 @@ const handleChange = (event) => {
 
 
  useEffect(() => {
-    setData(userPermissions);
+    const permissions = userPermissions.map(String)
+    setData(permissions);
   }, [userPermissions]);
+
+useEffect(() => {
+    console.log(data)
+  },[data]);
 
   useEffect(() => {
     fetch('http://127.0.0.1:8000/auth/api/permission/')
@@ -46,7 +51,7 @@ const handleChange = (event) => {
                 type="checkbox"
                 value={permission.id}
                 onChange={handleChange}
-checked={data.includes(permission.id)}
+checked={data.includes(String(permission.id))}
                 />
               <label>{permission.name}</label>
             </p>
