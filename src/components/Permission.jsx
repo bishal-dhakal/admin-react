@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-function Permissions({ selectedPermissions }) {
+function Permissions({ userPermissions }) {
   const [permissions, setPermissions] = useState([]);
-  const [data, setData ] = useState([])
+  const [data, setData ] = useState(userPermissions)
 
   
 const handleChange = (event) => {
@@ -24,7 +24,7 @@ const handleChange = (event) => {
         })
 
       .catch((error) => console.error('Error fetching permissions:', error));
-
+      console.log(userPermissions)
   }, []);
 
   return (
@@ -40,8 +40,9 @@ const handleChange = (event) => {
               <input
                 type="checkbox"
                 value={permission.id}
-                name="permission"
-                onChange={handleChange}/>
+                onChange={handleChange}
+                // checked={}
+                />
               <label>{permission.name}</label>
             </p>
           ))

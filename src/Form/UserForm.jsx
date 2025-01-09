@@ -128,7 +128,7 @@ const UserForm = ({ user }) => {
       <div>
         <h3>Permissions</h3>
         <Permissions
-          selectedPermissions={formData.user_permissions}
+          userPermissions={formData.user_permissions}
         />
       </div>
 
